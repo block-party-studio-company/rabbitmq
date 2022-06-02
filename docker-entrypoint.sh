@@ -48,10 +48,13 @@ if [ -z "${RABBITMQ_USE_LONGNAME:-}" ] && [ "$(hostname)" != "$(hostname -s)" ];
 fi
 
 ### MODIFIED HERE ###
-ls -lah /var/lib/rabbitmq/.erlang.cookie >&2
-chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
-chmod 600 /var/lib/rabbitmq/.erlang.cookie
-ls -lah /var/lib/rabbitmq/.erlang.cookie >&2
+COOKIE_FILE=/var/lib/rabbitmq/.erlang.cookie
+if [ -f "$COOKIE_FILE" ]; then
+    ls -lah $COOKIE_FILE >&2
+    chown rabbitmq:rabbitmq $COOKIE_FILE
+    chmod 600 $COOKIE_FILE
+    ls -lah $COOKIE_FILE >&2
+fi
 ### MODIFIED END ###
 
 exec "$@"
